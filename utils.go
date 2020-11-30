@@ -14,28 +14,12 @@ import (
 )
 
 func GetCwd() string {
-	if len(os.Args) > 1 {
-		path, err := filepath.Abs(os.Args[1])
-		if err != nil {
-			log.Fatal(err)
-		}
-		return path
-	}
-
 	cwd, err := os.Getwd()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	return cwd
-}
-
-func IsDryRun() bool {
-	if len(os.Args) > 2 {
-		return os.Args[2] == "--dry-run"
-	}
-
-	return false
 }
 
 func GetToken() string {

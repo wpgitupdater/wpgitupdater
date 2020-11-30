@@ -24,10 +24,10 @@ type Config struct {
 	Plugins PluginConfig
 }
 
-func LoadConfig(cwd string) Config {
+func LoadConfig() Config {
 	plugins := PluginConfig{Path: "plugins"}
-	config := Config{Cwd: cwd, Branch: CurrentBranch(), Token: GetToken(), Plugins: plugins}
-	input, err := ioutil.ReadFile(cwd + "/.wpgitupdates.yml")
+	config := Config{Cwd: GetCwd(), Branch: CurrentBranch(), Token: GetToken(), Plugins: plugins}
+	input, err := ioutil.ReadFile(config.Cwd + "/.wpgitupdates.yml")
 	if err != nil {
 		log.Fatal(err)
 	}

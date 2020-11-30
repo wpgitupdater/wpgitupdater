@@ -135,7 +135,7 @@ func (plugin Plugin) UpdateBranchExists() bool {
 	return BranchExists(plugin.GetBranchName())
 }
 
-func (plugin Plugin) PerformPluginUpdate(config *Config) {
+func (plugin Plugin) PerformPluginUpdate(config *Config, dryRun bool) {
 	if !plugin.HasPendingUpdate() {
 		fmt.Printf("[%s] Already up to date, skipping\n", plugin.Slug)
 		return
@@ -146,7 +146,7 @@ func (plugin Plugin) PerformPluginUpdate(config *Config) {
 		return
 	}
 
-	if IsDryRun() {
+	if dryRun {
 		fmt.Printf("[%s] Skipping actual update process...\n", plugin.Slug)
 		return
 	}
