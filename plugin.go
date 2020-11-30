@@ -89,6 +89,28 @@ func GetPluginInfo(file string) (string, string, error) {
 	return strings.TrimSpace(name[1]), strings.TrimSpace(version[1]), nil
 }
 
+func ListPlugins(config *Config) {
+	plugins := GetPlugins(config)
+	for slug, plugin := range plugins {
+		status := ""
+		if plugin.HasPendingUpdate() {
+			status = "outdated"
+		} else {
+			status = "uptodate"
+		}
+		fmt.Printf("%-60v[%v]\n", slug, status)
+	}
+}
+
+func UpdatePlugins(config *Config, dryRun bool) {
+	plugins := GetPlugins(config)
+	ConfigureGitConfig(config)
+	for _, plugin := range plugins {
+		plugin.PerformPluginUpdate(config, dryRun)
+	}
+	RestoreGitConfig(config)
+}
+
 func (plugin *Plugin) LoadExternalInfo() {
 	info := PluginInfo{}
 	resp, err := http.Get("https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request[slug]=" + plugin.Slug)

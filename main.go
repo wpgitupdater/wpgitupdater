@@ -10,19 +10,9 @@ const version = "1.0"
 
 func main() {
 
-	if len(os.Args) < 2 {
-		fmt.Println("Expected 'list' or 'update' subcommands")
-		os.Exit(1)
-	}
-
+	EnsureValidCommand()
 	config := LoadConfig()
-
-	if config.Version != version {
-		fmt.Println("Configuration file version unsupported! Please ensure your match the config and updater versions.")
-		fmt.Println("Configuration version [" + config.Version + "]")
-		fmt.Println("Updater version [" + version + "]")
-		os.Exit(1)
-	}
+	EnsureValidVersion(&config)
 
 	listCmd := flag.NewFlagSet("list", flag.ExitOnError)
 	var listPlugins bool
@@ -38,31 +28,34 @@ func main() {
 		fmt.Println("List update statuses")
 
 		if listPlugins {
-			plugins := GetPlugins(&config)
-			for slug, plugin := range plugins {
-				status := ""
-				if plugin.HasPendingUpdate() {
-					status = "outdated"
-				} else {
-					status = "uptodate"
-				}
-				fmt.Printf("%-60v[%v]\n", slug, status)
-			}
+			ListPlugins(&config)
+		} else {
+			fmt.Println("Skipping plugins")
 		}
 	case "update":
 		updateCmd.Parse(os.Args[2:])
 		fmt.Println("Performing updates")
 
-		if config.Plugins.Enabled == false {
+		if config.Plugins.Enabled {
+			UpdatePlugins(&config, dryRun)
+		} else {
 			fmt.Println("Plugin updates disabled")
-			return
 		}
+	}
+}
 
-		plugins := GetPlugins(&config)
-		ConfigureGitConfig(&config)
-		for _, plugin := range plugins {
-			plugin.PerformPluginUpdate(&config, dryRun)
-		}
-		RestoreGitConfig(&config)
+func EnsureValidCommand() {
+	if len(os.Args) < 2 {
+		fmt.Println("Expected 'list' or 'update' subcommands")
+		os.Exit(1)
+	}
+}
+
+func EnsureValidVersion(config *Config) {
+	if config.Version != version {
+		fmt.Println("Configuration file version unsupported! Please ensure your match the config and updater versions.")
+		fmt.Println("Configuration version [" + config.Version + "]")
+		fmt.Println("Updater version [" + version + "]")
+		os.Exit(1)
 	}
 }
