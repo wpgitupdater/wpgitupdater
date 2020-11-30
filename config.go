@@ -58,7 +58,7 @@ func (config Config) GetPluginsPRTitle() string {
 	if config.Plugins.Title != "" {
 		return config.Plugins.Title
 	}
-	return "Update Plugin :plugin from :oldversion to :newversion"
+	return "Update plugin :plugin from :oldversion to :newversion"
 }
 
 func (config Config) PluginCanBeUpdated(slug string) bool {

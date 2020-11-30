@@ -1,0 +1,13 @@
+version: "1.0"
+#branch: main
+plugins:
+  enabled: true
+  path: plugins
+  commit: "chore(plugins): Update :plugin from :oldversion to :newversion"
+  #title: "Update plugin :plugin from :oldversion to :newversion"
+  #include:
+  #  - amp
+  #   - classic-editor
+  # exclude:
+  #   - amp
+  #   - classic-editor
