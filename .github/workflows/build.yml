@@ -30,7 +30,7 @@ jobs:
         fi
 
     - name: Build
-      run: ./go-executable-build.bash
+      run: go build -o wpgitupdater -v ./...
 
     - name: Validate Build
       run: ./wpgitupdater || true
@@ -39,7 +39,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: wpgitupdater
-        path: wpgitupdater-*
+        path: wpgitupdater
         retention-days: 1
 
     - name: Test
