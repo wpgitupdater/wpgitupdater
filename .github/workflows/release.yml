@@ -61,3 +61,4 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: wpgitupdater
         asset_name: wpgitupdater
+        asset_content_type: application/binary
