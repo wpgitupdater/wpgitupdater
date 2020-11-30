@@ -39,9 +39,9 @@ func IsDryRun() bool {
 }
 
 func GetToken() string {
-	token := os.Getenv("WP_UPDATES_GIT_TOKEN")
+	token := os.Getenv("WP_GIT_UPDATER_GIT_TOKEN")
 	if token == "" {
-		log.Fatal("Missing WP_UPDATES_GIT_TOKEN variable!")
+		log.Fatal("Missing WP_GIT_UPDATER_GIT_TOKEN variable!")
 	}
 	return token
 }
