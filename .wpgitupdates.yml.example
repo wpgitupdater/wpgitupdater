@@ -1,13 +1,17 @@
 version: "1.0"
-#branch: main
+# Optionally set the branch to base pull requests onto, auto detected.
+#branch: develop
 plugins:
   enabled: true
   path: plugins
-  commit: "chore(plugins): Update :plugin from :oldversion to :newversion"
+  # You can change the commit message or pull request title by uncommenting the lines below
+  #commit: "chore(plugins): Update :plugin from :oldversion to :newversion"
   #title: "Update plugin :plugin from :oldversion to :newversion"
+  # Using the include option you can ensure only certain plugins are checked
   #include:
   #  - amp
   #   - classic-editor
+  # Or you can exclude certain plugins from being checked, only applies if the include option is missing
   # exclude:
   #   - amp
   #   - classic-editor
