@@ -17,7 +17,7 @@ const gitUser = "WordPress Git Updater Bot"
 const gitEmail = "bot@wpgitupdater.dev"
 const userAgent = "wpgitupdater"
 const workflowFile = ".github/workflows/wpgitupdater.yml"
-const installerUrl = "https://wpgitupdater.github.io/installer/install.sh"
+const installerUrl = "https://install.wpgitupdater.dev/install.sh"
 
 func main() {
 
