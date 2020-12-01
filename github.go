@@ -14,7 +14,6 @@ import (
 
 func CreateWorkflowTemplate() {
 	template := `name: wpgitupdater
-
 on:
   schedule:
   - cron: 0 0 * * *
