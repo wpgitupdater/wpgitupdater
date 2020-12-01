@@ -18,7 +18,7 @@ func CreateWorkflowTemplate() {
 on:
   schedule:
   - cron: 0 0 * * *
-
+  workflow_dispatch:
 jobs:
   update:
     runs-on: ubuntu-latest
