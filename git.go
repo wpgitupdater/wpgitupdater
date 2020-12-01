@@ -11,16 +11,15 @@ import (
 )
 
 func ConfigureGitConfig(config *Config) {
-	// configure git first, @see https://peterevans.dev/posts/github-actions-how-to-automate-code-formatting-in-pull-requests/
-	configFile := config.Cwd + "/.git/config"
+	gitConfigFile := config.Cwd + "/.git/config"
 	fmt.Println(fmt.Sprintf("Configuring git config using token: %s", config.Token))
 
 	fmt.Println("Creating git config backup")
-	input, err := ioutil.ReadFile(configFile)
+	input, err := ioutil.ReadFile(gitConfigFile)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = ioutil.WriteFile(configFile+".original", input, 644)
+	err = ioutil.WriteFile(gitConfigFile+".original", input, 644)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -40,7 +39,7 @@ func ConfigureGitConfig(config *Config) {
 	fmt.Println("Updating origin url")
 	output = string(RunCmd("git", "remote", "get-url", "origin"))
 	url := strings.TrimSpace(output)
-	re := regexp.MustCompile("^(git@|https://)([^:]+)[:/](.+)")
+	re := regexp.MustCompile("^(git@|https://)([^:/]+)[:/](.+)")
 	origin := re.ReplaceAllString(url, fmt.Sprintf("https://x-access-token:%v@$2/$3", config.Token))
 	output = string(RunCmd("git", "remote", "set-url", "origin", origin))
 	if output != "" {
@@ -50,12 +49,12 @@ func ConfigureGitConfig(config *Config) {
 
 func RestoreGitConfig(config *Config) {
 	fmt.Println("Restoring git config")
-	configFile := config.Cwd + "/.git/config"
+	gitConfigFile := config.Cwd + "/.git/config"
 	err := os.Remove(configFile)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = os.Rename(configFile+".original", configFile)
+	err = os.Rename(gitConfigFile+".original", gitConfigFile)
 	if err != nil {
 		log.Fatal(err)
 	}

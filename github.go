@@ -40,7 +40,6 @@ jobs:
 	fmt.Println(output)
 }
 
-// https://developer.github.com/v3/pulls/#create-a-pull-request
 func CreatePullRequest(config *Config, plugin Plugin) error {
 	body := map[string]string{
 		"title": plugin.GetPRTitle(config),
@@ -65,7 +64,7 @@ func CreatePullRequest(config *Config, plugin Plugin) error {
 	}
 
 	req.Header.Add("Authorization", "token "+config.Token)
-	req.Header.Add("User-Agent", "wpgitupdater")
+	req.Header.Add("User-Agent", userAgent)
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := client.Do(req)
