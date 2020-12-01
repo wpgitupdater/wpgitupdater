@@ -8,6 +8,9 @@ import (
 	"strings"
 )
 
+var build = "development"
+var buildDate = ""
+
 const version = "1.0"
 const configFile = ".wpgitupdater.yml"
 const gitUser = "WordPress Git Updater Bot"
@@ -17,6 +20,10 @@ const workflowFile = ".github/workflows/wpgitupdater.yml"
 const installerUrl = "https://wpgitupdater.github.io/installer/install.sh"
 
 func main() {
+
+	fmt.Println("WordPress Git Updater")
+	fmt.Println("Build:", build)
+	fmt.Println("Build Date:", buildDate)
 
 	var commands map[string]func()
 	commands = make(map[string]func())
