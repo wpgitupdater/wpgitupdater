@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
@@ -32,6 +33,8 @@ plugins:
 	if err := ioutil.WriteFile(configFile, []byte(template), 644); err != nil {
 		log.Fatal(err)
 	}
+	output := string(RunCmd("chmod", "644", configFile))
+	fmt.Println(output)
 }
 
 func LoadConfig() Config {

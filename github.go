@@ -37,6 +37,8 @@ jobs:
 	if err := ioutil.WriteFile(workflowFile, []byte(template), 644); err != nil {
 		log.Fatal(err)
 	}
+	output := string(RunCmd("chmod", "644", workflowFile))
+	fmt.Println(output)
 }
 
 // https://developer.github.com/v3/pulls/#create-a-pull-request
