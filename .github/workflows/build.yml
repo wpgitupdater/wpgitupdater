@@ -44,3 +44,13 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+
+    - name: Trigger installer update
+      env:
+        INSTALLER_WORKFLOW_TOKEN: ${{ secrets.INSTALLER_WORKFLOW_TOKEN }}
+      run: |
+        curl -X POST \
+        -H "Accept: application/vnd.github.v3+json" \
+        -H "Authorization: token $INSTALLER_WORKFLOW_TOKEN” \
+        https://api.github.com/repos/wpgitupdater/installer/actions/workflows/installer.yml/dispatches \
+        -d '{"ref":"main"}'
