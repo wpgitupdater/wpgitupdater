@@ -11,9 +11,7 @@ import (
 const version = "1.0"
 const configFile = ".wpgitupdater.yml"
 const workflowFile = ".github/workflows/wpgitupdater.yml"
-
-// @todo this wont work as private repo
-const installerUrl = "https://raw.githubusercontent.com/wpgitupdater/wpgitupdater/main/install.sh"
+const installerUrl = "https://wpgitupdater.github.io/installer/install.sh"
 
 func main() {
 
