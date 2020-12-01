@@ -54,11 +54,11 @@ func InitCommand() func() {
 		cmd := flag.NewFlagSet("init", flag.ExitOnError)
 		var ci bool
 		cmd.BoolVar(&ci, "ci", false, "Create a CI config file")
-		var workflow bool
-		cmd.BoolVar(&workflow, "workflow", false, "Create Github Actions workflow file")
+		var actions bool
+		cmd.BoolVar(&actions, "actions", false, "Create Github Actions workflow file")
 		cmd.Parse(os.Args[2:])
 
-		if ci && workflow {
+		if ci && actions {
 			fmt.Println("Creating workflow file")
 			CreateWorkflowTemplate()
 			fmt.Println("Workflow file created!")
