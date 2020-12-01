@@ -191,7 +191,7 @@ func (plugin Plugin) PerformPluginUpdate(config *Config, dryRun bool) {
 	}
 
 	fmt.Printf("Extracting new plugin version for [%v]\n", plugin.Slug)
-	if _, err := Unzip(downloadPath, config.GetPluginsPath(plugin.Slug)+"/"); err != nil {
+	if _, err := Unzip(downloadPath, config.GetPluginsPath("")); err != nil {
 		log.Fatal(err)
 	}
 
