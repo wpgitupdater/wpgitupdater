@@ -9,6 +9,8 @@ import (
 
 const version = "1.0"
 const configFile = ".wpgitupdater.yml"
+const gitUser = "WordPress Git Updater Bot"
+const gitEmail = "bot@wppluginupdates.dev"
 const workflowFile = ".github/workflows/wpgitupdater.yml"
 const installerUrl = "https://wpgitupdater.github.io/installer/install.sh"
 

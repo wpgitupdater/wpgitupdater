@@ -26,13 +26,13 @@ func ConfigureGitConfig(config *Config) {
 	}
 
 	fmt.Println("Setting committer email address")
-	output := string(RunCmd("git", "config", "user.email", "bot@wppluginupdates.io"))
+	output := string(RunCmd("git", "config", "user.email", gitEmail))
 	if output != "" {
 		fmt.Println(output)
 	}
 
 	fmt.Println("Setting committer name")
-	output = string(RunCmd("git", "config", "user.name", "WordPress Plugin Updater Bot"))
+	output = string(RunCmd("git", "config", "user.name", gitUser))
 	if output != "" {
 		fmt.Println(output)
 	}
