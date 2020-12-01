@@ -40,7 +40,7 @@ func ConfigureGitConfig(config *Config) {
 	fmt.Println("Updating origin url")
 	output = string(RunCmd("git", "remote", "get-url", "origin"))
 	url := strings.TrimSpace(output)
-	re := regexp.MustCompile("^(git@|https://)([^:]+):(.+)")
+	re := regexp.MustCompile("^(git@|https://)([^:]+)[:/](.+)")
 	origin := re.ReplaceAllString(url, fmt.Sprintf("https://x-access-token:%v@$2/$3", config.Token))
 	output = string(RunCmd("git", "remote", "set-url", "origin", origin))
 	if output != "" {
