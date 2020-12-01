@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"syscall"
 )
 
 const version = "1.0"
@@ -21,7 +20,6 @@ func main() {
 
 	switch os.Args[1] {
 	case "init":
-		syscall.Umask(0)
 		cmd := flag.NewFlagSet("init", flag.ExitOnError)
 		var workflow bool
 		cmd.BoolVar(&workflow, "workflow", false, "Create Github Actions workflow file")
