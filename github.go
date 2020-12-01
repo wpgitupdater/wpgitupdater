@@ -5,9 +5,39 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 )
+
+func CreateWorkflowTemplate() {
+	template := `name: wpgitupdater
+
+on:
+  schedule:
+  - cron: 0 0 * * *
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: git checkout develop
+    - run: curl ` + installerUrl + ` | bash -s -- -b $HOME/bin
+    - run: $HOME/bin/wpgitupdater update
+      env:
+        WP_GIT_UPDATER_TOKEN: ${{ secrets.WP_GIT_UPDATER_TOKEN }}
+        WP_GIT_UPDATER_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}`
+
+	if err := os.MkdirAll(filepath.Dir(workflowFile), os.ModePerm); err != nil {
+		log.Fatal(err)
+	}
+	if err := ioutil.WriteFile(workflowFile, []byte(template), 644); err != nil {
+		log.Fatal(err)
+	}
+}
 
 // https://developer.github.com/v3/pulls/#create-a-pull-request
 func CreatePullRequest(config *Config, plugin Plugin) error {

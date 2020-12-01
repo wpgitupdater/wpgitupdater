@@ -5,10 +5,15 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"syscall"
 )
 
 const version = "1.0"
 const configFile = ".wpgitupdater.yml"
+const workflowFile = ".github/workflows/wpgitupdater.yml"
+
+// @todo this wont work as private repo
+const installerUrl = "https://raw.githubusercontent.com/wpgitupdater/wpgitupdater/main/install.sh"
 
 func main() {
 
@@ -18,9 +23,21 @@ func main() {
 
 	switch os.Args[1] {
 	case "init":
-		fmt.Println("Creating config file")
-		CreateConfigTemplate()
-		fmt.Println("Config file created!")
+		syscall.Umask(0)
+		cmd := flag.NewFlagSet("init", flag.ExitOnError)
+		var workflow bool
+		cmd.BoolVar(&workflow, "workflow", false, "Create Github Actions workflow file")
+		cmd.Parse(os.Args[2:])
+
+		if workflow {
+			fmt.Println("Creating workflow file")
+			CreateWorkflowTemplate()
+			fmt.Println("Workflow file created!")
+		} else {
+			fmt.Println("Creating config file")
+			CreateConfigTemplate()
+			fmt.Println("Config file created!")
+		}
 	case "list":
 		cmd := flag.NewFlagSet("list", flag.ExitOnError)
 		var plugins bool

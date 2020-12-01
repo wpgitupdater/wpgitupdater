@@ -20,7 +20,7 @@ func ConfigureGitConfig(config *Config) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = ioutil.WriteFile(configFile+".original", input, 0644)
+	err = ioutil.WriteFile(configFile+".original", input, 644)
 	if err != nil {
 		log.Fatal(err)
 	}
