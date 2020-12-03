@@ -1,4 +1,9 @@
-# wpgitupdater
+<img src="https://docs.wpgitupdater.dev/wp-git-updater-hero.png" alt="WP Git Updater" style="display: block;margin: 0 auto;width: 300px;height: auto;"/>
+
+# WP Git Updater
+
+![Workflow](https://github.com/wpgitupdater/wpgitupdater/workflows/Go%20Build/badge.svg)
+
 CI tool to automate WordPress asset updates for Git controlled websites
 
 Generating install script (https://github.com/goreleaser/godownloader)
