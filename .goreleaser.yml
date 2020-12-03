@@ -10,6 +10,7 @@ builds:
       - linux
       - windows
       - darwin
+    main: ./main.go
     ldflags: -X main.build={{.Commit}} -X main.buildDate={{.Date}}
 archives:
   - replacements:

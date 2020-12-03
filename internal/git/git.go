@@ -1,7 +1,10 @@
-package main
+package git
 
 import (
 	"fmt"
+	"github.com/wpgitupdater/wpgitupdater/internal/config"
+	"github.com/wpgitupdater/wpgitupdater/internal/constants"
+	"github.com/wpgitupdater/wpgitupdater/internal/utils"
 	"io/ioutil"
 	"log"
 	"os"
@@ -10,9 +13,9 @@ import (
 	"strings"
 )
 
-func ConfigureGitConfig(config *Config) {
-	gitConfigFile := config.Cwd + "/.git/config"
-	fmt.Println(fmt.Sprintf("Configuring git config using token: %s", config.Token))
+func ConfigureGitConfig(cnf *config.Config) {
+	gitConfigFile := cnf.Cwd + "/.git/config"
+	fmt.Println(fmt.Sprintf("Configuring git config using token: %s", cnf.Token))
 
 	fmt.Println("Creating git config backup")
 	input, err := ioutil.ReadFile(gitConfigFile)
@@ -25,32 +28,32 @@ func ConfigureGitConfig(config *Config) {
 	}
 
 	fmt.Println("Setting committer email address")
-	output := string(RunCmd("git", "config", "user.email", gitEmail))
+	output := string(utils.RunCmd("git", "config", "user.email", constants.GitEmail))
 	if output != "" {
 		fmt.Println(output)
 	}
 
 	fmt.Println("Setting committer name")
-	output = string(RunCmd("git", "config", "user.name", gitUser))
+	output = string(utils.RunCmd("git", "config", "user.name", constants.GitUser))
 	if output != "" {
 		fmt.Println(output)
 	}
 
 	fmt.Println("Updating origin url")
-	output = string(RunCmd("git", "remote", "get-url", "origin"))
+	output = string(utils.RunCmd("git", "remote", "get-url", "origin"))
 	url := strings.TrimSpace(output)
 	re := regexp.MustCompile("^(git@|https://)([^:/]+)[:/](.+)")
-	origin := re.ReplaceAllString(url, fmt.Sprintf("https://x-access-token:%v@$2/$3", config.Token))
-	output = string(RunCmd("git", "remote", "set-url", "origin", origin))
+	origin := re.ReplaceAllString(url, fmt.Sprintf("https://x-access-token:%v@$2/$3", cnf.Token))
+	output = string(utils.RunCmd("git", "remote", "set-url", "origin", origin))
 	if output != "" {
 		fmt.Println(output)
 	}
 }
 
-func RestoreGitConfig(config *Config) {
+func RestoreGitConfig(cnf *config.Config) {
 	fmt.Println("Restoring git config")
-	gitConfigFile := config.Cwd + "/.git/config"
-	err := os.Remove(configFile)
+	gitConfigFile := cnf.Cwd + "/.git/config"
+	err := os.Remove(constants.ConfigFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -62,7 +65,7 @@ func RestoreGitConfig(config *Config) {
 
 func CurrentBranch() string {
 	cmd := exec.Command("git", "branch", "--show-current")
-	cmd.Dir = GetCwd()
+	cmd.Dir = utils.GetCwd()
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
@@ -72,7 +75,7 @@ func CurrentBranch() string {
 
 func BranchExists(branch string) bool {
 	cmd := exec.Command("git", "ls-remote", "--exit-code", "--heads", "origin", branch)
-	cmd.Dir = GetCwd()
+	cmd.Dir = utils.GetCwd()
 	_, err := cmd.CombinedOutput()
 	if err != nil {
 		return false

@@ -1,7 +1,9 @@
-package main
+package config
 
 import (
 	"fmt"
+	"github.com/wpgitupdater/wpgitupdater/internal/constants"
+	"github.com/wpgitupdater/wpgitupdater/internal/utils"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
@@ -26,21 +28,21 @@ type Config struct {
 }
 
 func CreateConfigTemplate() {
-	template := `version: "` + version + `"
+	template := `version: "` + constants.Version + `"
 plugins:
   enabled: true
   path: plugins`
-	if err := ioutil.WriteFile(configFile, []byte(template), 644); err != nil {
+	if err := ioutil.WriteFile(constants.ConfigFile, []byte(template), 644); err != nil {
 		log.Fatal(err)
 	}
-	output := string(RunCmd("chmod", "644", configFile))
+	output := string(utils.RunCmd("chmod", "644", constants.ConfigFile))
 	fmt.Println(output)
 }
 
 func LoadConfig() Config {
 	plugins := PluginConfig{Path: "plugins"}
-	config := Config{Cwd: GetCwd(), Branch: CurrentBranch(), Token: GetToken(), Plugins: plugins}
-	input, err := ioutil.ReadFile(config.Cwd + "/" + configFile)
+	config := Config{Cwd: utils.GetCwd(), Token: utils.GetToken(), Plugins: plugins}
+	input, err := ioutil.ReadFile(config.Cwd + "/" + constants.ConfigFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,10 +51,10 @@ func LoadConfig() Config {
 		log.Fatal(err)
 	}
 
-	if config.Version != version {
+	if config.Version != constants.Version {
 		log.Println("Configuration file version unsupported! Please ensure you match the config and updater versions.")
 		log.Println("Configuration version [" + config.Version + "]")
-		log.Fatal("Updater version [" + version + "]")
+		log.Fatal("Updater version [" + constants.Version + "]")
 	}
 
 	return config
@@ -82,10 +84,10 @@ func (config Config) GetPluginsPRTitle() string {
 
 func (config Config) PluginCanBeUpdated(slug string) bool {
 	if len(config.Plugins.Include) > 0 {
-		_, found := InSlice(config.Plugins.Include, slug)
+		_, found := utils.InSlice(config.Plugins.Include, slug)
 		return found
 	} else if len(config.Plugins.Exclude) > 0 {
-		_, found := InSlice(config.Plugins.Exclude, slug)
+		_, found := utils.InSlice(config.Plugins.Exclude, slug)
 		return !found
 	} else {
 		return true

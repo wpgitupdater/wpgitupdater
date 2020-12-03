@@ -3,27 +3,20 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/wpgitupdater/wpgitupdater/internal/config"
+	"github.com/wpgitupdater/wpgitupdater/internal/constants"
+	"github.com/wpgitupdater/wpgitupdater/internal/github"
+	"github.com/wpgitupdater/wpgitupdater/internal/plugin"
 	"log"
 	"os"
 	"strings"
 )
 
-var build = "development"
-var buildDate = ""
-
-const version = "1.0"
-const configFile = ".wpgitupdater.yml"
-const gitUser = "WP Git Updater Bot"
-const gitEmail = "bot@wpgitupdater.dev"
-const userAgent = "wpgitupdater"
-const workflowFile = ".github/workflows/wpgitupdater.yml"
-const installerUrl = "https://install.wpgitupdater.dev/install.sh"
-
 func main() {
 
 	fmt.Println("WordPress Git Updater")
-	fmt.Println("Build:", build)
-	fmt.Println("Build Date:", buildDate)
+	fmt.Println("Build:", constants.Build)
+	fmt.Println("Build Date:", constants.BuildDate)
 
 	var commands map[string]func()
 	commands = make(map[string]func())
@@ -60,11 +53,11 @@ func InitCommand() func() {
 
 		if ci && actions {
 			fmt.Println("Creating workflow file")
-			CreateWorkflowTemplate()
+			github.CreateWorkflowTemplate()
 			fmt.Println("Workflow file created!")
 		} else {
 			fmt.Println("Creating config file")
-			CreateConfigTemplate()
+			config.CreateConfigTemplate()
 			fmt.Println("Config file created!")
 		}
 	}
@@ -78,9 +71,9 @@ func ListCommand() func() {
 		cmd.Parse(os.Args[2:])
 		fmt.Println("List update statuses")
 
-		config := LoadConfig()
+		cnf := config.LoadConfig()
 		if plugins {
-			ListPlugins(&config)
+			plugin.ListPlugins(&cnf)
 		} else {
 			fmt.Println("Skipping plugins")
 		}
@@ -95,9 +88,9 @@ func UpdateCommand() func() {
 		cmd.Parse(os.Args[2:])
 		fmt.Println("Performing updates")
 
-		config := LoadConfig()
-		if config.Plugins.Enabled {
-			UpdatePlugins(&config, dryRun)
+		cnf := config.LoadConfig()
+		if cnf.Plugins.Enabled {
+			plugin.UpdatePlugins(&cnf, dryRun)
 		} else {
 			fmt.Println("Plugin updates disabled")
 		}
