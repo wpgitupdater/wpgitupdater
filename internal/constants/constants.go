@@ -4,6 +4,9 @@ var Build = "development"
 var BuildDate = ""
 
 const Version = "1.0"
+
+var SupportedConfigVersions = [1]string{"1.0"}
+
 const ConfigFile = ".wpgitupdater.yml"
 const GitUser = "WP Git Updater Bot"
 const GitEmail = "bot@wpgitupdater.dev"

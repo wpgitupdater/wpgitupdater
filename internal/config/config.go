@@ -51,10 +51,11 @@ func LoadConfig() Config {
 		log.Fatal(err)
 	}
 
-	if config.Version != constants.Version {
-		log.Println("Configuration file version unsupported! Please ensure you match the config and updater versions.")
+	if _, exists := utils.InSlice(constants.SupportedConfigVersions[:], config.Version); !exists {
+		log.Println("Configuration file version unsupported! Please ensure you match the config with the updaters supported versions.")
 		log.Println("Configuration version [" + config.Version + "]")
-		log.Fatal("Updater version [" + constants.Version + "]")
+		log.Println("Updater version [" + constants.Version + "]")
+		log.Fatal("Supported configuration versions [" + strings.Join(constants.SupportedConfigVersions[:], ",") + "]")
 	}
 
 	return config
