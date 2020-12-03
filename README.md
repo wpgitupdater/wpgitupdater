@@ -4,7 +4,12 @@
 
 # WP Git Updater
 
-![Workflow](https://github.com/wpgitupdater/wpgitupdater/workflows/Go%20Build/badge.svg)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/wpgitupdater/wpgitupdater/Go%20Build)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/wpgitupdater/wpgitupdater)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/wpgitupdater/wpgitupdater)
+[![GitHub issues](https://img.shields.io/github/issues/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater/issues)
+[![GitHub stars](https://img.shields.io/github/stars/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater/stargazers)
+[![GitHub license](https://img.shields.io/github/license/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater)
 
 Automated Source Controlled WordPress Updates
 
