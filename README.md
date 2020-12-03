@@ -4,22 +4,25 @@
 
 # WP Git Updater
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/wpgitupdater/wpgitupdater/Go%20Build)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/wpgitupdater/wpgitupdater)
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/wpgitupdater/wpgitupdater)
-[![GitHub issues](https://img.shields.io/github/issues/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater/issues)
-[![GitHub stars](https://img.shields.io/github/stars/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater/stargazers)
-[![GitHub license](https://img.shields.io/github/license/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/wpgitupdater/wpgitupdater/Go%20Build)](https://github.com/wpgitupdater/wpgitupdater/actions)
+[![GitHub Release (latest by date)](https://img.shields.io/github/v/release/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater/releases)
+[![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater)
+[![GitHub Issues](https://img.shields.io/github/issues/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater/stargazers)
+[![GitHub License](https://img.shields.io/github/license/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater)
 
 Automated Source Controlled WordPress Updates
 
 # Installation
 
-![curl https://install.wpgitupdater.dev/install.sh | bash -s -- -b $HOME/bin](./install.svg)
+[![curl https://install.wpgitupdater.dev/install.sh | bash -s -- -b $HOME/bin](./install.svg)](#usage)
 
 # Usage
 
 ```shell
+# Install locally
+curl https://install.wpgitupdater.dev/install.sh | bash -s -- -b $HOME/bin
+
 # Optional flags in []
 
 # Generates a .wpgitupdater.yml file with defaults
