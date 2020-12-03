@@ -1,4 +1,6 @@
-<img src="https://docs.wpgitupdater.dev/wp-git-updater-hero.png" alt="WP Git Updater" style="display: block;margin: 0 auto;width: 300px;height: auto;"/>
+<p align="center">
+    <img src="https://docs.wpgitupdater.dev/wp-git-updater-hero.png" alt="WP Git Updater" width="300" />
+</p>
 
 # WP Git Updater
 
