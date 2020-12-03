@@ -1,7 +1,8 @@
 package constants
 
-const Build = "development"
-const BuildDate = ""
+var Build = "development"
+var BuildDate = ""
+
 const Version = "1.0"
 const ConfigFile = ".wpgitupdater.yml"
 const GitUser = "WP Git Updater Bot"

@@ -11,7 +11,7 @@ builds:
       - windows
       - darwin
     main: ./main.go
-    ldflags: -X main.build={{.Commit}} -X main.buildDate={{.Date}}
+    ldflags: -X github.com/wpgitupdater/wpgitupdater/internal/constants.Build={{.Commit}} -X github.com/wpgitupdater/wpgitupdater/internal/constants.BuildDate={{.Date}}
 archives:
   - replacements:
       darwin: Darwin
