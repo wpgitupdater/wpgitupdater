@@ -61,6 +61,7 @@ func RestoreGitConfig(cnf *config.Config) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	utils.RunCmd("chmod", "644", gitConfigFile)
 }
 
 func CurrentBranch() string {
