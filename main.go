@@ -14,7 +14,7 @@ import (
 
 func main() {
 
-	fmt.Println("WordPress Git Updater V" + constants.Version)
+	fmt.Println("WordPress Git Updater v" + constants.Version)
 	fmt.Println("Build:", constants.Build)
 	fmt.Println("Build Date:", constants.BuildDate)
 

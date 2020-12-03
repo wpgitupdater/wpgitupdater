@@ -11,7 +11,7 @@ builds:
       - windows
       - darwin
     main: ./main.go
-    ldflags: -X github.com/wpgitupdater/wpgitupdater/internal/constants.Build={{.Commit}} -X github.com/wpgitupdater/wpgitupdater/internal/constants.BuildDate={{.Date}}
+    ldflags: -X github.com/wpgitupdater/wpgitupdater/internal/constants.Version={{.Version}} -X github.com/wpgitupdater/wpgitupdater/internal/constants.Build={{.FullCommit}} -X github.com/wpgitupdater/wpgitupdater/internal/constants.BuildDate={{.Date}}
 archives:
   - replacements:
       darwin: Darwin

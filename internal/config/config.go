@@ -28,7 +28,7 @@ type Config struct {
 }
 
 func CreateConfigTemplate() {
-	template := `version: "` + constants.Version + `"
+	template := `version: "` + constants.ConfigVersion + `"
 plugins:
   enabled: true
   path: plugins`
