@@ -11,17 +11,23 @@ import (
 	"github.com/wpgitupdater/wpgitupdater/internal/utils"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
+	"time"
 )
 
 func CreateWorkflowTemplate() {
+	rand.Seed(time.Now().UnixNano())
+	hour := strconv.Itoa(rand.Intn(23))
+	minute := strconv.Itoa(rand.Intn(59))
 	template := `name: wpgitupdater
 on:
   schedule:
-  - cron: 0 0 * * *
+  - cron: ` + minute + ` ` + hour + ` * * *
   workflow_dispatch:
 jobs:
   update:
