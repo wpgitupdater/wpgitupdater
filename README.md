@@ -6,19 +6,17 @@
 
 ![Workflow](https://github.com/wpgitupdater/wpgitupdater/workflows/Go%20Build/badge.svg)
 
-CI tool to automate WordPress asset updates for Git controlled websites
+Automated Source Controlled WordPress Updates
 
-Generating install script (https://github.com/goreleaser/godownloader)
+# Installation
 
-You need to create a master branch and run:
-
-`godownloader --repo=wpgitupdater/wpgitupdater > install.sh`
-
-Then delete master branch.
+```shell
+curl https://install.wpgitupdater.dev/install.sh | bash -s -- -b $HOME/bin
+```
 
 # Usage
 
-```
+```shell
 # Optional flags in []
 
 # Generates a .wpgitupdater.yml file with defaults
@@ -27,16 +25,18 @@ $ wpgitupdater init
 
 # Generates a .github/workflows/wpgitupdater.yml workflow file
 
-$ wpgitupdater init -workflow
+$ wpgitupdater init -ci -actions
 
 # You will need the ENV var WP_GIT_UPDATER_GIT_TOKEN set as a personal access token for the following commands
 $ export WP_GIT_UPDATER_GIT_TOKEN="***"
 
 # Lists plugin version stats
 
-$ wpgitupdater list [-plugins|-plugins=false]
+$ wpgitupdater list [-plugins]
 
 # Performs updates
 
 $ wpgitupdater update [-dry-run]
 ```
+
+For more detailed documentation visit the [Documentation](https://docs.wpgitupdater.dev).
