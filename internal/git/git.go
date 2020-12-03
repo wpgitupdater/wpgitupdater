@@ -53,7 +53,7 @@ func ConfigureGitConfig(cnf *config.Config) {
 func RestoreGitConfig(cnf *config.Config) {
 	fmt.Println("Restoring git config")
 	gitConfigFile := cnf.Cwd + "/.git/config"
-	err := os.Remove(constants.ConfigFile)
+	err := os.Remove(gitConfigFile)
 	if err != nil {
 		log.Fatal(err)
 	}
