@@ -13,7 +13,7 @@ var buildDate = ""
 
 const version = "1.0"
 const configFile = ".wpgitupdater.yml"
-const gitUser = "WordPress Git Updater Bot"
+const gitUser = "WP Git Updater Bot"
 const gitEmail = "bot@wpgitupdater.dev"
 const userAgent = "wpgitupdater"
 const workflowFile = ".github/workflows/wpgitupdater.yml"
