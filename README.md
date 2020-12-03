@@ -15,9 +15,7 @@ Automated Source Controlled WordPress Updates
 
 # Installation
 
-```shell
-curl https://install.wpgitupdater.dev/install.sh | bash -s -- -b $HOME/bin
-```
+![curl https://install.wpgitupdater.dev/install.sh | bash -s -- -b $HOME/bin](./install.svg)
 
 # Usage
 
