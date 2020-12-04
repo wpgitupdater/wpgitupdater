@@ -1,7 +1,3 @@
-<p align="center">
-    <img src="https://docs.wpgitupdater.dev/wp-git-updater-hero.png" alt="WP Git Updater" width="300" />
-</p>
-
 # WP Git Updater
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/wpgitupdater/wpgitupdater/Go%20Build)](https://github.com/wpgitupdater/wpgitupdater/actions)
@@ -12,6 +8,8 @@
 [![GitHub License](https://img.shields.io/github/license/wpgitupdater/wpgitupdater)](https://github.com/wpgitupdater/wpgitupdater)
 
 Automated Source Controlled WordPress Updates
+
+[![WP Git Updater](https://blog.wpgitupdater.dev/wp-content/uploads/2020/12/contributions-2-fb-post.jpg)](https://wpgitupdater.dev)
 
 # Installation
 
