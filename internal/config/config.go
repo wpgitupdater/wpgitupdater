@@ -20,11 +20,12 @@ type PluginConfig struct {
 }
 
 type Config struct {
-	Cwd     string
-	Branch  string
-	Version string
-	Token   string
-	Plugins PluginConfig
+	Cwd          string
+	Branch       string
+	Version      string
+	Token        string
+	UpdaterToken string
+	Plugins      PluginConfig
 }
 
 func CreateConfigTemplate() {
@@ -41,7 +42,7 @@ plugins:
 
 func LoadConfig() Config {
 	plugins := PluginConfig{Path: "plugins"}
-	config := Config{Cwd: utils.GetCwd(), Token: utils.GetToken(), Plugins: plugins}
+	config := Config{Cwd: utils.GetCwd(), Token: utils.GetToken(), UpdaterToken: utils.GetUpdaterToken(), Plugins: plugins}
 	input, err := ioutil.ReadFile(config.Cwd + "/" + constants.ConfigFile)
 	if err != nil {
 		log.Fatal(err)

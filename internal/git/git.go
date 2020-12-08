@@ -83,3 +83,13 @@ func BranchExists(branch string) bool {
 	}
 	return true
 }
+
+func GetProvider() string {
+	return "github.com"
+}
+
+func GetRepository() string {
+	output := string(utils.RunCmd("git", "remote", "get-url", "origin"))
+	parts := strings.Split(strings.TrimSpace(output), GetProvider())
+	return strings.Replace(strings.TrimLeft(parts[1], ":/"), ".git", "", 1)
+}

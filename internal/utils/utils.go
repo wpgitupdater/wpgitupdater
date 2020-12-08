@@ -30,6 +30,14 @@ func GetToken() string {
 	return token
 }
 
+func GetUpdaterToken() string {
+	token := os.Getenv("WP_GIT_UPDATER_TOKEN")
+	if token == "" {
+		log.Fatal("Missing WP_GIT_UPDATER_TOKEN variable!")
+	}
+	return token
+}
+
 func RunCmd(parts ...string) string {
 	fmt.Println("Command: " + strings.Join(parts, " "))
 	cmd := exec.Command(parts[0], parts[1:]...)

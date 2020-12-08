@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/wpgitupdater/wpgitupdater/internal/api"
 	"github.com/wpgitupdater/wpgitupdater/internal/config"
 	"github.com/wpgitupdater/wpgitupdater/internal/git"
 	"github.com/wpgitupdater/wpgitupdater/internal/github"
@@ -188,6 +189,11 @@ func (plugin Plugin) PerformPluginUpdate(cnf *config.Config, dryRun bool) {
 		fmt.Printf("[%s] Skipping actual update process...\n", plugin.Slug)
 		return
 	}
+
+	if err := api.UpdateUsage("plugin", plugin.Slug); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("[%s] Usage updated...\n", plugin.Slug)
 
 	branchName := plugin.GetBranchName()
 	downloadPath := cnf.GetPluginsPath(filepath.Base(plugin.Info.Download))
