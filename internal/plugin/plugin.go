@@ -81,11 +81,9 @@ func ListPlugins(cnf *config.Config) {
 
 func UpdatePlugins(cnf *config.Config, dryRun bool) {
 	plugins := GetPlugins(cnf)
-	git.ConfigureGitConfig(cnf)
 	for _, plugin := range plugins {
 		plugin.PerformPluginUpdate(cnf, dryRun)
 	}
-	git.RestoreGitConfig(cnf)
 }
 
 func (plugin Plugin) HasPendingUpdate() bool {

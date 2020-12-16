@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/wpgitupdater/wpgitupdater/internal/config"
 	"github.com/wpgitupdater/wpgitupdater/internal/constants"
+	"github.com/wpgitupdater/wpgitupdater/internal/git"
 	"github.com/wpgitupdater/wpgitupdater/internal/github"
 	"github.com/wpgitupdater/wpgitupdater/internal/plugin"
 	"log"
@@ -89,6 +90,12 @@ func UpdateCommand() func() {
 		fmt.Println("Performing updates")
 
 		cnf := config.LoadConfig()
+
+		if dryRun == false {
+			git.ConfigureGitConfig(&cnf)
+			defer git.RestoreGitConfig(&cnf)
+		}
+
 		if cnf.Plugins.Enabled {
 			plugin.UpdatePlugins(&cnf, dryRun)
 		} else {
