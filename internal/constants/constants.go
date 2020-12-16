@@ -13,3 +13,5 @@ const UserAgent = "wpgitupdater"
 const WorkflowFile = ".github/workflows/wpgitupdater.yml"
 const InstallerUrl = "https://install.wpgitupdater.dev/install.sh"
 const ApiUrl = "https://wpgitupdater.dev/api/v1"
+
+const WordPressPluginApiInfo = "https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request[slug]="

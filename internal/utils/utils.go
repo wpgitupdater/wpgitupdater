@@ -2,6 +2,7 @@ package utils
 
 import (
 	"archive/zip"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -355,4 +356,18 @@ func GetWordPressHeaderInfo(file string, nameMatch string, versionMatch string) 
 	}
 
 	return strings.TrimSpace(name[1]), strings.TrimSpace(version[1]), nil
+}
+
+func LoadWordPressApiInfo(url string, info interface{}) {
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer resp.Body.Close()
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(&info)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

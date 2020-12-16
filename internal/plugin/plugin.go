@@ -1,15 +1,14 @@
 package plugin
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/wpgitupdater/wpgitupdater/internal/api"
 	"github.com/wpgitupdater/wpgitupdater/internal/config"
+	"github.com/wpgitupdater/wpgitupdater/internal/constants"
 	"github.com/wpgitupdater/wpgitupdater/internal/git"
 	"github.com/wpgitupdater/wpgitupdater/internal/github"
 	"github.com/wpgitupdater/wpgitupdater/internal/utils"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -57,11 +56,10 @@ func GetPlugins(cnf *config.Config) map[string]Plugin {
 		}
 
 		fmt.Println(fmt.Sprintf("[%s] plugin found", slug))
-		plugin := Plugin{Slug: slug, Path: path, Name: name, Version: version}
+		plugin := Plugin{Slug: slug, Path: path, Name: name, Version: version, Info: PluginInfo{}}
 
 		fmt.Println(fmt.Sprintf("[%s] loading external plugin info", slug))
-		plugin.LoadExternalInfo()
-
+		utils.LoadWordPressApiInfo(constants.WordPressPluginApiInfo+plugin.Slug, &plugin.Info)
 		plugins[slug] = plugin
 	}
 
@@ -88,23 +86,6 @@ func UpdatePlugins(cnf *config.Config, dryRun bool) {
 		plugin.PerformPluginUpdate(cnf, dryRun)
 	}
 	git.RestoreGitConfig(cnf)
-}
-
-func (plugin *Plugin) LoadExternalInfo() {
-	info := PluginInfo{}
-	resp, err := http.Get("https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request[slug]=" + plugin.Slug)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer resp.Body.Close()
-	decoder := json.NewDecoder(resp.Body)
-	err = decoder.Decode(&info)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	plugin.Info = info
 }
 
 func (plugin Plugin) HasPendingUpdate() bool {
