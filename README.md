@@ -9,7 +9,7 @@
 
 Automated Source Controlled WordPress Updates
 
-[![WP Git Updater](https://blog.wpgitupdater.dev/wp-content/uploads/2020/12/contributions-2-fb-post.jpg)](https://wpgitupdater.dev)
+[![WP Git Updater](https://wpgitupdater.dev/img/banner.jpg)](https://wpgitupdater.dev)
 
 # Installation
 
