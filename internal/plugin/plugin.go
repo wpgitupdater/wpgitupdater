@@ -2,19 +2,16 @@ package plugin
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/wpgitupdater/wpgitupdater/internal/api"
 	"github.com/wpgitupdater/wpgitupdater/internal/config"
 	"github.com/wpgitupdater/wpgitupdater/internal/git"
 	"github.com/wpgitupdater/wpgitupdater/internal/github"
 	"github.com/wpgitupdater/wpgitupdater/internal/utils"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 )
 
@@ -54,7 +51,7 @@ func GetPlugins(cnf *config.Config) map[string]Plugin {
 			continue
 		}
 
-		name, version, err := GetPluginInfo(file)
+		name, version, err := utils.GetWordPressHeaderInfo(file, "Plugin Name", "Version")
 		if err != nil {
 			continue
 		}
@@ -69,29 +66,6 @@ func GetPlugins(cnf *config.Config) map[string]Plugin {
 	}
 
 	return plugins
-}
-
-func GetPluginInfo(file string) (string, string, error) {
-	content, err := ioutil.ReadFile(file)
-	if err != nil {
-		return "", "", err
-	}
-
-	text := string(content)
-
-	nameR, _ := regexp.Compile("[ \t/*#@]*Plugin Name:(?P<Name>.*)")
-	name := nameR.FindStringSubmatch(text)
-	if len(name) < 1 {
-		return "", "", errors.New("")
-	}
-
-	versionR, _ := regexp.Compile("[ \t/*#@]*Version:(?P<Version>.*)")
-	version := versionR.FindStringSubmatch(text)
-	if len(version) < 1 {
-		return "", "", errors.New("")
-	}
-
-	return strings.TrimSpace(name[1]), strings.TrimSpace(version[1]), nil
 }
 
 func ListPlugins(cnf *config.Config) {

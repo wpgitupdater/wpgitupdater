@@ -2,13 +2,16 @@ package utils
 
 import (
 	"archive/zip"
+	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -329,4 +332,27 @@ func DownloadUrl(url string, location string) error {
 		return err
 	}
 	return nil
+}
+
+func GetWordPressHeaderInfo(file string, nameMatch string, versionMatch string) (string, string, error) {
+	content, err := ioutil.ReadFile(file)
+	if err != nil {
+		return "", "", err
+	}
+
+	text := string(content)
+
+	nameR, _ := regexp.Compile("[ \t/*#@]*" + nameMatch + ":(?P<Name>.*)")
+	name := nameR.FindStringSubmatch(text)
+	if len(name) < 1 {
+		return "", "", errors.New("")
+	}
+
+	versionR, _ := regexp.Compile("[ \t/*#@]*" + versionMatch + ":(?P<Version>.*)")
+	version := versionR.FindStringSubmatch(text)
+	if len(version) < 1 {
+		return "", "", errors.New("")
+	}
+
+	return strings.TrimSpace(name[1]), strings.TrimSpace(version[1]), nil
 }
