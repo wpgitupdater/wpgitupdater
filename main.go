@@ -8,6 +8,7 @@ import (
 	"github.com/wpgitupdater/wpgitupdater/internal/git"
 	"github.com/wpgitupdater/wpgitupdater/internal/github"
 	"github.com/wpgitupdater/wpgitupdater/internal/plugin"
+	"github.com/wpgitupdater/wpgitupdater/internal/theme"
 	"log"
 	"os"
 	"strings"
@@ -69,6 +70,8 @@ func ListCommand() func() {
 		cmd := flag.NewFlagSet("list", flag.ExitOnError)
 		var plugins bool
 		cmd.BoolVar(&plugins, "plugins", true, "List plugin updates")
+		var themes bool
+		cmd.BoolVar(&themes, "themes", true, "List theme updates")
 		cmd.Parse(os.Args[2:])
 		fmt.Println("List update statuses")
 
@@ -78,6 +81,11 @@ func ListCommand() func() {
 		} else {
 			fmt.Println("Skipping plugins")
 		}
+		if themes {
+			theme.ListThemes(&cnf)
+		} else {
+			fmt.Println("Skipping themes")
+		}
 	}
 }
 
@@ -85,7 +93,7 @@ func UpdateCommand() func() {
 	return func() {
 		cmd := flag.NewFlagSet("update", flag.ExitOnError)
 		var dryRun bool
-		cmd.BoolVar(&dryRun, "dry-run", false, "Perform an update dry run, this stops short of creating an update branch")
+		cmd.BoolVar(&dryRun, "dry-run", false, "Perform an update dry run, this stops short of creating an update branches")
 		cmd.Parse(os.Args[2:])
 		fmt.Println("Performing updates")
 
@@ -97,9 +105,17 @@ func UpdateCommand() func() {
 		}
 
 		if cnf.Plugins.Enabled {
+			fmt.Println("Performing plugin updates")
 			plugin.UpdatePlugins(&cnf, dryRun)
 		} else {
 			fmt.Println("Plugin updates disabled")
+		}
+
+		if cnf.Themes.Enabled {
+			fmt.Println("Performing theme updates")
+			theme.UpdateThemes(&cnf, dryRun)
+		} else {
+			fmt.Println("Theme updates disabled")
 		}
 	}
 }

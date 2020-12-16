@@ -19,6 +19,15 @@ type PluginConfig struct {
 	Exclude []string
 }
 
+type ThemeConfig struct {
+	Enabled bool
+	Path    string
+	Commit  string
+	Title   string
+	Include []string
+	Exclude []string
+}
+
 type Config struct {
 	Cwd          string
 	Branch       string
@@ -26,13 +35,17 @@ type Config struct {
 	Token        string
 	UpdaterToken string
 	Plugins      PluginConfig
+	Themes       ThemeConfig
 }
 
 func CreateConfigTemplate() {
 	template := `version: "` + constants.ConfigVersion + `"
 plugins:
   enabled: true
-  path: plugins`
+  path: plugins
+themes:
+  enabled: true
+  path: themes`
 	if err := ioutil.WriteFile(constants.ConfigFile, []byte(template), 644); err != nil {
 		log.Fatal(err)
 	}
@@ -42,7 +55,8 @@ plugins:
 
 func LoadConfig() Config {
 	plugins := PluginConfig{Path: "plugins"}
-	config := Config{Cwd: utils.GetCwd(), Token: utils.GetToken(), UpdaterToken: utils.GetUpdaterToken(), Plugins: plugins}
+	themes := ThemeConfig{Path: "themes"}
+	config := Config{Cwd: utils.GetCwd(), Token: utils.GetToken(), UpdaterToken: utils.GetUpdaterToken(), Plugins: plugins, Themes: themes}
 	input, err := ioutil.ReadFile(config.Cwd + "/" + constants.ConfigFile)
 	if err != nil {
 		log.Fatal(err)
@@ -90,6 +104,40 @@ func (config Config) PluginCanBeUpdated(slug string) bool {
 		return found
 	} else if len(config.Plugins.Exclude) > 0 {
 		_, found := utils.InSlice(config.Plugins.Exclude, slug)
+		return !found
+	} else {
+		return true
+	}
+}
+
+func (config Config) GetThemesPath(append string) string {
+	path := config.Cwd + "/" + strings.Trim(config.Themes.Path, "/")
+	if append != "" {
+		path = path + "/" + strings.Trim(append, "/")
+	}
+	return path
+}
+
+func (config Config) GetThemesCommit() string {
+	if config.Themes.Commit != "" {
+		return config.Themes.Commit
+	}
+	return "chore(themes): Update :theme from :oldversion to :newversion"
+}
+
+func (config Config) GetThemesPRTitle() string {
+	if config.Themes.Title != "" {
+		return config.Themes.Title
+	}
+	return "Update theme :theme from :oldversion to :newversion"
+}
+
+func (config Config) ThemeCanBeUpdated(slug string) bool {
+	if len(config.Themes.Include) > 0 {
+		_, found := utils.InSlice(config.Themes.Include, slug)
+		return found
+	} else if len(config.Themes.Exclude) > 0 {
+		_, found := utils.InSlice(config.Themes.Exclude, slug)
 		return !found
 	} else {
 		return true

@@ -15,3 +15,4 @@ const InstallerUrl = "https://install.wpgitupdater.dev/install.sh"
 const ApiUrl = "https://wpgitupdater.dev/api/v1"
 
 const WordPressPluginApiInfo = "https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request[slug]="
+const WordPressThemeApiInfo = "https://api.wordpress.org/themes/info/1.2/?action=theme_information&request[slug]="
