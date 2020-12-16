@@ -15,3 +15,15 @@ plugins:
   # exclude:
   #   - amp
   #   - classic-editor
+themes:
+  enabled: true
+  path: themes
+  # You can change the commit message or pull request title by uncommenting the lines below
+  #commit: "chore(themes): Update :theme from :oldversion to :newversion"
+  #title: "Update theme :theme from :oldversion to :newversion"
+  # Using the include option you can ensure only certain themes are checked
+  #include:
+  #  - twentytwenty
+  # Or you can exclude certain themes from being checked, only applies if the include option is missing
+  # exclude:
+  #   - twentytwentyone
