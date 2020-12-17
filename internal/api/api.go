@@ -12,8 +12,18 @@ import (
 	"net/http"
 )
 
-func UpdateUsage(usageType string, slug string) error {
-	body := interfaces.UpdateUsage{Type: usageType, Provider: git.GetProvider(), Repository: git.GetRepository(), Slug: slug}
+func UpdateUsage(usageType string, slug string, stats bool) error {
+	var provider string
+	var repository string
+	if stats {
+		provider = git.GetProvider()
+		repository = git.GetRepository()
+	} else {
+		slug = ""
+		provider = "*"
+		repository = "*/*"
+	}
+	body := interfaces.UpdateUsage{Type: usageType, Provider: provider, Repository: repository, Slug: slug}
 	body.Meta = interfaces.UpdateUsageMeta{Build: constants.Build, Version: constants.Version, ConfigVersion: constants.ConfigVersion}
 	data, err := json.Marshal(body)
 	if err != nil {

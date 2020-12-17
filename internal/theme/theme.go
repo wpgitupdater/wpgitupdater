@@ -79,10 +79,10 @@ func ListThemes(cnf *config.Config) {
 	}
 }
 
-func UpdateThemes(cnf *config.Config, dryRun bool) {
+func UpdateThemes(cnf *config.Config, dryRun bool, stats bool) {
 	themes := GetThemes(cnf)
 	for _, theme := range themes {
-		theme.PerformThemeUpdate(cnf, dryRun)
+		theme.PerformThemeUpdate(cnf, dryRun, stats)
 	}
 }
 
@@ -127,7 +127,7 @@ func (theme Theme) UpdateBranchExists() bool {
 	return git.BranchExists(theme.GetBranchName())
 }
 
-func (theme Theme) PerformThemeUpdate(cnf *config.Config, dryRun bool) {
+func (theme Theme) PerformThemeUpdate(cnf *config.Config, dryRun bool, stats bool) {
 	if !theme.HasPendingUpdate() {
 		fmt.Printf("[%s] Already up to date, skipping\n", theme.Slug)
 		return
@@ -143,7 +143,7 @@ func (theme Theme) PerformThemeUpdate(cnf *config.Config, dryRun bool) {
 		return
 	}
 
-	if err := api.UpdateUsage("theme", theme.Slug); err != nil {
+	if err := api.UpdateUsage("theme", theme.Slug, stats); err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("[%s] Usage updated...\n", theme.Slug)

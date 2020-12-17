@@ -79,10 +79,10 @@ func ListPlugins(cnf *config.Config) {
 	}
 }
 
-func UpdatePlugins(cnf *config.Config, dryRun bool) {
+func UpdatePlugins(cnf *config.Config, dryRun bool, stats bool) {
 	plugins := GetPlugins(cnf)
 	for _, plugin := range plugins {
-		plugin.PerformPluginUpdate(cnf, dryRun)
+		plugin.PerformPluginUpdate(cnf, dryRun, stats)
 	}
 }
 
@@ -127,7 +127,7 @@ func (plugin Plugin) UpdateBranchExists() bool {
 	return git.BranchExists(plugin.GetBranchName())
 }
 
-func (plugin Plugin) PerformPluginUpdate(cnf *config.Config, dryRun bool) {
+func (plugin Plugin) PerformPluginUpdate(cnf *config.Config, dryRun bool, stats bool) {
 	if !plugin.HasPendingUpdate() {
 		fmt.Printf("[%s] Already up to date, skipping\n", plugin.Slug)
 		return
@@ -143,7 +143,7 @@ func (plugin Plugin) PerformPluginUpdate(cnf *config.Config, dryRun bool) {
 		return
 	}
 
-	if err := api.UpdateUsage("plugin", plugin.Slug); err != nil {
+	if err := api.UpdateUsage("plugin", plugin.Slug, stats); err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("[%s] Usage updated...\n", plugin.Slug)
