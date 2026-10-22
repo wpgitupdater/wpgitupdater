@@ -31,7 +31,7 @@ jobs:
       run: ./wpgitupdater || true
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v7
       with:
         name: wpgitupdater
         path: wpgitupdater
