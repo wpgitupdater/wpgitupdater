@@ -2,7 +2,6 @@ package plugin
 
 import (
 	"fmt"
-	"github.com/wpgitupdater/wpgitupdater/internal/api"
 	"github.com/wpgitupdater/wpgitupdater/internal/config"
 	"github.com/wpgitupdater/wpgitupdater/internal/constants"
 	"github.com/wpgitupdater/wpgitupdater/internal/git"
@@ -79,10 +78,10 @@ func ListPlugins(cnf *config.Config) {
 	}
 }
 
-func UpdatePlugins(cnf *config.Config, dryRun bool, stats bool) {
+func UpdatePlugins(cnf *config.Config, dryRun bool) {
 	plugins := GetPlugins(cnf)
 	for _, plugin := range plugins {
-		plugin.PerformPluginUpdate(cnf, dryRun, stats)
+		plugin.PerformPluginUpdate(cnf, dryRun)
 	}
 }
 
@@ -127,7 +126,7 @@ func (plugin Plugin) UpdateBranchExists() bool {
 	return git.BranchExists(plugin.GetBranchName())
 }
 
-func (plugin Plugin) PerformPluginUpdate(cnf *config.Config, dryRun bool, stats bool) {
+func (plugin Plugin) PerformPluginUpdate(cnf *config.Config, dryRun bool) {
 	if !plugin.HasPendingUpdate() {
 		fmt.Printf("[%s] Already up to date, skipping\n", plugin.Slug)
 		return
@@ -142,11 +141,6 @@ func (plugin Plugin) PerformPluginUpdate(cnf *config.Config, dryRun bool, stats 
 		fmt.Printf("[%s] Skipping actual update process...\n", plugin.Slug)
 		return
 	}
-
-	if err := api.UpdateUsage("plugin", plugin.Slug, stats); err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("[%s] Usage updated...\n", plugin.Slug)
 
 	branchName := plugin.GetBranchName()
 	downloadPath := cnf.GetPluginsPath(filepath.Base(plugin.Info.Download))

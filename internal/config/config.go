@@ -29,13 +29,12 @@ type ThemeConfig struct {
 }
 
 type Config struct {
-	Cwd          string
-	Branch       string
-	Version      string
-	Token        string
-	UpdaterToken string
-	Plugins      PluginConfig
-	Themes       ThemeConfig
+	Cwd     string
+	Branch  string
+	Version string
+	Token   string
+	Plugins PluginConfig
+	Themes  ThemeConfig
 }
 
 func CreateConfigTemplate() {
@@ -56,7 +55,7 @@ themes:
 func LoadConfig() Config {
 	plugins := PluginConfig{Path: "plugins"}
 	themes := ThemeConfig{Path: "themes"}
-	config := Config{Cwd: utils.GetCwd(), Token: utils.GetToken(), UpdaterToken: utils.GetUpdaterToken(), Plugins: plugins, Themes: themes}
+	config := Config{Cwd: utils.GetCwd(), Token: utils.GetToken(), Plugins: plugins, Themes: themes}
 	input, err := ioutil.ReadFile(config.Cwd + "/" + constants.ConfigFile)
 	if err != nil {
 		log.Fatal(err)

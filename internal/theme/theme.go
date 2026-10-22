@@ -2,7 +2,6 @@ package theme
 
 import (
 	"fmt"
-	"github.com/wpgitupdater/wpgitupdater/internal/api"
 	"github.com/wpgitupdater/wpgitupdater/internal/config"
 	"github.com/wpgitupdater/wpgitupdater/internal/constants"
 	"github.com/wpgitupdater/wpgitupdater/internal/git"
@@ -79,10 +78,10 @@ func ListThemes(cnf *config.Config) {
 	}
 }
 
-func UpdateThemes(cnf *config.Config, dryRun bool, stats bool) {
+func UpdateThemes(cnf *config.Config, dryRun bool) {
 	themes := GetThemes(cnf)
 	for _, theme := range themes {
-		theme.PerformThemeUpdate(cnf, dryRun, stats)
+		theme.PerformThemeUpdate(cnf, dryRun)
 	}
 }
 
@@ -127,7 +126,7 @@ func (theme Theme) UpdateBranchExists() bool {
 	return git.BranchExists(theme.GetBranchName())
 }
 
-func (theme Theme) PerformThemeUpdate(cnf *config.Config, dryRun bool, stats bool) {
+func (theme Theme) PerformThemeUpdate(cnf *config.Config, dryRun bool) {
 	if !theme.HasPendingUpdate() {
 		fmt.Printf("[%s] Already up to date, skipping\n", theme.Slug)
 		return
@@ -142,11 +141,6 @@ func (theme Theme) PerformThemeUpdate(cnf *config.Config, dryRun bool, stats boo
 		fmt.Printf("[%s] Skipping actual update process...\n", theme.Slug)
 		return
 	}
-
-	if err := api.UpdateUsage("theme", theme.Slug, stats); err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("[%s] Usage updated...\n", theme.Slug)
 
 	branchName := theme.GetBranchName()
 	downloadPath := cnf.GetThemesPath(filepath.Base(theme.Info.Download))

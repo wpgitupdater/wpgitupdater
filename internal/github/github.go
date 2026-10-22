@@ -38,7 +38,6 @@ jobs:
     - run: curl ` + constants.InstallerUrl + ` | bash -s -- -b $HOME/bin
     - run: $HOME/bin/wpgitupdater update
       env:
-        WP_GIT_UPDATER_TOKEN: ${{ secrets.WP_GIT_UPDATER_TOKEN }}
         WP_GIT_UPDATER_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}`
 
 	if err := os.MkdirAll(filepath.Dir(constants.WorkflowFile), os.ModePerm); err != nil {

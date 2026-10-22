@@ -93,9 +93,9 @@ func UpdateCommand() func() {
 	return func() {
 		cmd := flag.NewFlagSet("update", flag.ExitOnError)
 		var dryRun bool
-		var stats bool
 		cmd.BoolVar(&dryRun, "dry-run", false, "Perform an update dry run, this stops short of creating an update branches")
-		cmd.BoolVar(&stats, "stats", true, "Login plugin, provider and repository names in your usage statistics")
+		// Keep accepting this flag for existing scripts; usage reporting has been removed.
+		cmd.Bool("stats", false, "Deprecated: ignored; no usage statistics are collected")
 		cmd.Parse(os.Args[2:])
 		fmt.Println("Performing updates")
 
@@ -108,14 +108,14 @@ func UpdateCommand() func() {
 
 		if cnf.Plugins.Enabled {
 			fmt.Println("Performing plugin updates")
-			plugin.UpdatePlugins(&cnf, dryRun, stats)
+			plugin.UpdatePlugins(&cnf, dryRun)
 		} else {
 			fmt.Println("Plugin updates disabled")
 		}
 
 		if cnf.Themes.Enabled {
 			fmt.Println("Performing theme updates")
-			theme.UpdateThemes(&cnf, dryRun, stats)
+			theme.UpdateThemes(&cnf, dryRun)
 		} else {
 			fmt.Println("Theme updates disabled")
 		}
